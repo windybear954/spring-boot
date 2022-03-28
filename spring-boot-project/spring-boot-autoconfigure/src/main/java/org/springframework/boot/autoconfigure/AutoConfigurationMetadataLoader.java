@@ -44,12 +44,15 @@ final class AutoConfigurationMetadataLoader {
 
 	static AutoConfigurationMetadata loadMetadata(ClassLoader classLoader, String path) {
 		try {
+			// 获取类加载器资源
 			Enumeration<URL> urls = (classLoader != null) ? classLoader.getResources(path)
 					: ClassLoader.getSystemResources(path);
 			Properties properties = new Properties();
+			// 读取配置
 			while (urls.hasMoreElements()) {
 				properties.putAll(PropertiesLoaderUtils.loadProperties(new UrlResource(urls.nextElement())));
 			}
+			// 创建PropertiesAutoConfigurationMetadata来维护配置
 			return loadMetadata(properties);
 		}
 		catch (IOException ex) {

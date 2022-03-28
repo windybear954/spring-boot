@@ -91,24 +91,31 @@ public abstract class AutoConfigurationPackages {
 	 */
 	public static void register(BeanDefinitionRegistry registry, String... packageNames) {
 		if (registry.containsBeanDefinition(BEAN)) {
+			// 从BeanDefinitionRegistry获取到AutoConfigurationPackages这个bean
 			BeanDefinition beanDefinition = registry.getBeanDefinition(BEAN);
+			// 获取到这个bean的构造函数参数
 			ConstructorArgumentValues constructorArguments = beanDefinition.getConstructorArgumentValues();
+			// 将包名添加到构造函数数组中
 			constructorArguments.addIndexedArgumentValue(0, addBasePackages(constructorArguments, packageNames));
 		}
 		else {
+			// 创建一个bean
 			GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
 			beanDefinition.setBeanClass(BasePackages.class);
 			beanDefinition.getConstructorArgumentValues().addIndexedArgumentValue(0, packageNames);
 			beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+			// 并将这个bean注册
 			registry.registerBeanDefinition(BEAN, beanDefinition);
 		}
 	}
 
 	private static String[] addBasePackages(ConstructorArgumentValues constructorArguments, String[] packageNames) {
+		// 获取构造函数参数数组
 		String[] existing = (String[]) constructorArguments.getIndexedArgumentValue(0, String[].class).getValue();
 		Set<String> merged = new LinkedHashSet<>();
 		merged.addAll(Arrays.asList(existing));
 		merged.addAll(Arrays.asList(packageNames));
+		// 把包名添加到构造函数数组中
 		return StringUtils.toStringArray(merged);
 	}
 

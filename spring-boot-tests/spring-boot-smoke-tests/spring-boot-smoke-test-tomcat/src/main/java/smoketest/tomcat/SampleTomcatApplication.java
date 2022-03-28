@@ -26,7 +26,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-@SpringBootApplication
+@SpringBootApplication // <1>
 public class SampleTomcatApplication {
 
 	private static Log logger = LogFactory.getLog(SampleTomcatApplication.class);
@@ -49,7 +49,7 @@ public class SampleTomcatApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(SampleTomcatApplication.class, args);
+		SpringApplication.run(SampleTomcatApplication.class, args); // <2>
 	}
 
 }
